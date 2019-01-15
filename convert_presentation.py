@@ -1,5 +1,4 @@
 def get_name(slide):
-    print slide
     for shape in slide.shapes:
       if shape.is_placeholder:
          if shape.placeholder_format.idx == 0:
