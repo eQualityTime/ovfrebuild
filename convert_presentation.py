@@ -19,3 +19,19 @@ def is_first_inside_second(first,second):
         if second.left < x <second.left+second.width:
             return True 
     return False
+
+
+def get_containers(slide):
+    is_container={}
+    for i in range(len(slide.shapes)):
+        is_container[i]=True
+    for i in range(len(slide.shapes)):
+        for j in range(i+1,len(slide.shapes)):
+            if is_first_inside_second(slide.shapes[j],slide.shapes[i]):
+                is_container[j]=False
+                pass
+    containers=[] 
+    for i in range(len(slide.shapes)):
+        if is_container[i]==True:
+            containers.append(slide.shapes[i])
+    return containers

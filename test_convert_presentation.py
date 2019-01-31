@@ -30,6 +30,11 @@ class TestConvertPresentation(unittest.TestCase):
         shapeB=slide.shapes[0]
         self.assertEqual(False,convert_presentation.is_first_inside_second(shapeA,shapeB))
  
+    def test_how_many_shapes_arent_inside_in_order(self):
+        slide = Presentation("tests/testinputs/CK20V2.pptx").slides[2]
+        containers=convert_presentation.get_containers(slide)
+        self.assertEqual(20,len(containers))
+    
         
         
 #Todo - blank names 
