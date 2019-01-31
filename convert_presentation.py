@@ -22,6 +22,7 @@ def is_first_inside_second(first,second):
 
 
 def get_containers(slide):
+    comparisions=0
     is_container={}
     for i in range(len(slide.shapes)):
         is_container[i]=True
@@ -29,6 +30,7 @@ def get_containers(slide):
         if is_container[i]==True:#If i isn't a container, then there will be a bigger container it is in... 
             for j in range(i+1,len(slide.shapes)):
                 if is_container[j]==True:
+                    comparisions+=1
                     if is_first_inside_second(slide.shapes[j],slide.shapes[i]):
                         is_container[j]=False
                         pass
@@ -36,4 +38,5 @@ def get_containers(slide):
     for i in range(len(slide.shapes)):
         if is_container[i]==True:
             containers.append(slide.shapes[i])
+    print comparisions
     return containers
