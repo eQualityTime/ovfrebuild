@@ -26,10 +26,12 @@ def get_containers(slide):
     for i in range(len(slide.shapes)):
         is_container[i]=True
     for i in range(len(slide.shapes)):
-        for j in range(i+1,len(slide.shapes)):
-            if is_first_inside_second(slide.shapes[j],slide.shapes[i]):
-                is_container[j]=False
-                pass
+        if is_container[i]==True:#If i isn't a container, then there will be a bigger container it is in... 
+            for j in range(i+1,len(slide.shapes)):
+                if is_container[j]==True:
+                    if is_first_inside_second(slide.shapes[j],slide.shapes[i]):
+                        is_container[j]=False
+                        pass
     containers=[] 
     for i in range(len(slide.shapes)):
         if is_container[i]==True:
