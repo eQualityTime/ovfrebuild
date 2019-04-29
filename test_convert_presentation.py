@@ -3,8 +3,17 @@
 import unittest
 from pptx import Presentation
 import convert_presentation 
+import time
 
 class TestConvertPresentation(unittest.TestCase):
+
+    def setUp(self):
+        self._started_at = time.time()
+
+    def tearDown(self):
+        elapsed = time.time() - self._started_at
+        print('{} ({}s)'.format(self.id(), round(elapsed, 2)))
+
 
     def test_read_number_of_slides(self):
         prs = Presentation("tests/testinputs/CK20V2.pptx")
@@ -47,3 +56,5 @@ class TestConvertPresentation(unittest.TestCase):
 
 if __name__ == '__main__':
     unittest.main()
+
+pytest.main(__file__)
