@@ -35,6 +35,11 @@ class TestConvertPresentation(unittest.TestCase):
         containers=convert_presentation.get_containers(slide)
         self.assertEqual(20,len(containers))
     
+    def test_how_many_shapes_arent_inside_in_order_speed(self):
+        for slide in Presentation("tests/testinputs/CK20V2.pptx").slides:
+            print "here"
+            containers=convert_presentation.get_containers(slide)
+        self.assertEqual(19,len(containers))
         
         
 #Todo - blank names 
