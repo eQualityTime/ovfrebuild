@@ -34,18 +34,18 @@ def get_containers(slide):
     hollow_shapes=[]
     for i in range(len(slide.shapes)):
         hollow_shapes.append(hollow_shape(slide.shapes[i]))
-        is_container[i]=True
-    for i in range(len(slide.shapes)):
-        if is_container[i]==True:#If i isn't a container, then there will be a bigger container it is in... 
-            for j in range(i+1,len(slide.shapes)):
-                if is_container[j]==True:
-                    comparisions+=1
-                    if is_first_inside_second(hollow_shapes[j],hollow_shapes[i]):
-                        is_container[j]=False
-                        pass
+    is_container[0]=True #the one closest to the back is a container. 
+    for shape_num in range(len(slide.shapes)):
+        potential_container=True
+        for container_num in is_container.keys():
+            comparisions+=1
+            if is_first_inside_second(hollow_shapes[shape_num],hollow_shapes[container_num]): 
+                potential_container=False
+                break
+        if potential_container:
+            is_container[shape_num]=True 
     containers=[] 
-    for i in range(len(slide.shapes)):
-        if is_container[i]==True:
-            containers.append(slide.shapes[i])
+    for shape_num in is_container.keys():
+            containers.append(slide.shapes[shape_num])
     print "total comparisons {}".format(comparisions)
     return containers

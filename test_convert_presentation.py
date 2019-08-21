@@ -44,6 +44,12 @@ class TestConvertPresentation(unittest.TestCase):
         containers=convert_presentation.get_containers(slide)
         self.assertEqual(20,len(containers))
     
+    def test_get_all_containers(self):
+        #mostly here for speed
+        containers=[]
+        for slide in Presentation("tests/testinputs/CK20V2.pptx").slides:
+            containers=convert_presentation.get_containers(slide)
+        self.assertEqual(23,len(containers))
         
         
 #Todo - blank names 
