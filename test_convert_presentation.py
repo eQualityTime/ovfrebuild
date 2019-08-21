@@ -29,14 +29,14 @@ class TestConvertPresentation(unittest.TestCase):
 
     def test_inside(self): 
         slide = Presentation("tests/testinputs/CK20V2.pptx").slides[3]
-        shapeA=slide.shapes[1]
-        shapeB=slide.shapes[0]
+        shapeA=convert_presentation.hollow_shape(slide.shapes[1])
+        shapeB=convert_presentation.hollow_shape(slide.shapes[0])
         self.assertEqual(True,convert_presentation.is_first_inside_second(shapeA,shapeB))
 
     def test_outside(self): 
         slide = Presentation("tests/testinputs/CK20V2.pptx").slides[4]
-        shapeA=slide.shapes[1]
-        shapeB=slide.shapes[0]
+        shapeA=convert_presentation.hollow_shape(slide.shapes[1])
+        shapeB=convert_presentation.hollow_shape(slide.shapes[0])
         self.assertEqual(False,convert_presentation.is_first_inside_second(shapeA,shapeB))
  
     def test_how_many_shapes_arent_inside_in_order(self):
@@ -44,11 +44,6 @@ class TestConvertPresentation(unittest.TestCase):
         containers=convert_presentation.get_containers(slide)
         self.assertEqual(20,len(containers))
     
-    def test_how_many_shapes_arent_inside_in_order_speed(self):
-        for slide in Presentation("tests/testinputs/CK20V2.pptx").slides:
-            print "here"
-            containers=convert_presentation.get_containers(slide)
-        self.assertEqual(19,len(containers))
         
         
 #Todo - blank names 
