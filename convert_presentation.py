@@ -26,26 +26,101 @@ def hollow_shape(temp):
     hollow_shape['width']=temp.width
     return hollow_shape
     
+class TreeNode: 
+# A tree structure that stores the containers. 
+    def __init__(self,slide_num,slide): 
+        self.shape=slide.shapes[slide_num]
+        self.slide_num=slide_num
+        #self top and left should be the same as shape.
+        self.topleft=None
+        self.topright=None
+        self.bottomleft=None
+        self.bottomright=None
+
+
+    def add(self,slide_num,slide):
+        newshape=slide.shapes[slide_num] 
+        #print "entering add"
+        number_of_additions=0
+        if is_first_inside_second(hollow_shape(newshape),hollow_shape(self.shape)):
+            #print "Discarding for now but should fix later"
+            return #fix this later, but we disgard things inside us for now.   
+        else: 
+                #print "New Top: {}, Left: {}".format(newshape.top,newshape.left)
+                #print "Current Top: {}, Left: {}".format(self.shape.top,self.shape.left)
+                if newshape.left+newshape.width > self.shape.left:
+                    if newshape.top+newshape.height>self.shape.top:
+                        self.add_bottomright(slide_num, slide)
+                        number_of_additions+=1
+                    if newshape.top<self.shape.top:
+                        self.add_topright(slide_num, slide)
+                        number_of_additions+=1
+                if newshape.left < self.shape.left:
+                    if newshape.top+newshape.height>self.shape.top:
+                        self.add_bottomleft(slide_num, slide)
+                        number_of_additions+=1
+                    if newshape.top<self.shape.top:
+                        self.add_topleft(slide_num, slide)
+                        number_of_additions+=1
+        print "Number of additions: {}".format(number_of_additions)
+                    
+    def add_bottomright(self,shape,slide):
+        #print "br"
+        temp=TreeNode(shape,slide)
+        if self.bottomright==None:
+            self.bottomright=temp
+        else:
+            self.bottomright.add(shape,slide)
+
+    def add_bottomleft(self,shape,slide):
+        #print "bl"
+        temp=TreeNode(shape,slide)
+        if self.bottomleft==None:
+            self.bottomleft=temp
+        else:
+            self.bottomleft.add(shape,slide)
+        
+    def add_topright(self,shape,slide):
+        #print "tr"
+        temp=TreeNode(shape,slide)
+        if self.topright==None:
+            self.topright=temp
+        else:
+            self.topright.add(shape,slide)
+
+    def add_topleft(self,shape,slide):
+        #print "tl"
+        temp=TreeNode(shape,slide)
+        if self.topleft==None:
+            self.topleft=temp
+        else:
+            self.topleft.add(shape,slide)
+        
+
+    def get_container_list(self):
+# This needs a bit more work. 
+        return_me=[]
+        return_me.append(self.slide_num) 
+        if self.topleft:
+            return_me.extend(self.topleft.get_container_list())
+        if self.topright:
+            return_me.extend(self.topright.get_container_list())
+        if self.bottomleft:
+            return_me.extend(self.bottomleft.get_container_list())
+        if self.bottomright:
+            return_me.extend(self.bottomright.get_container_list())
+        return return_me
+                           
 
 
 def get_containers(slide):
-    comparisions=0
-    is_container={}
-    hollow_shapes=[]
-    for i in range(len(slide.shapes)):
-        hollow_shapes.append(hollow_shape(slide.shapes[i]))
-    is_container[0]=True #the one closest to the back is a container. 
-    for shape_num in range(len(slide.shapes)):
-        potential_container=True
-        for container_num in is_container.keys():
-            comparisions+=1
-            if is_first_inside_second(hollow_shapes[shape_num],hollow_shapes[container_num]): 
-                potential_container=False
-                break
-        if potential_container:
-            is_container[shape_num]=True 
-    containers=[] 
-    for shape_num in is_container.keys():
-            containers.append(slide.shapes[shape_num])
-    print "total comparisons {}".format(comparisions)
+    root = TreeNode(0,slide)
+
+    for i in range(len(slide.shapes))[1:]:
+        #print "new shape"
+        root.add(i,slide)
+
+    containers=set(root.get_container_list() )
     return containers
+
+    

@@ -42,7 +42,22 @@ class TestConvertPresentation(unittest.TestCase):
     def test_how_many_shapes_arent_inside_in_order(self):
         slide = Presentation("tests/testinputs/CK20V2.pptx").slides[2]
         containers=convert_presentation.get_containers(slide)
-        self.assertEqual(20,len(containers))
+        self.assertEqual(8,len(containers))
+
+    def test_tree_sorting(self):
+        slide = Presentation("tests/testinputs/CK20V2.pptx").slides[3]
+        containers=convert_presentation.get_containers(slide)
+        self.assertEqual(1,len(containers))
+
+    def test_tree_sorting2(self):
+        slide = Presentation("tests/testinputs/CK20V2.pptx").slides[4]
+        containers=convert_presentation.get_containers(slide)
+        self.assertEqual(2,len(containers))
+
+    def test_tree_sorting3(self):
+        slide = Presentation("tests/testinputs/CK20V2.pptx").slides[5]
+        containers=convert_presentation.get_containers(slide)
+        self.assertEqual(4,len(containers))
     
     def test_get_all_containers(self):
         #mostly here for speed
