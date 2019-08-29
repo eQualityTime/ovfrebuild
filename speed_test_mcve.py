@@ -33,6 +33,12 @@ class TestPPTX(unittest.TestCase):
         for i in range(100000):
             x = shape.top
 
+    def test_three(self):
+        prs = Presentation("tests/testinputs/CK20V2.pptx")
+        num= prs.slides[0].shapes[0].top
+        for i in range(100000):
+            x = num
+
 if __name__ == '__main__':
     unittest.main()
 

@@ -29,7 +29,7 @@ def hollow_shape(temp):
 class TreeNode: 
 # A tree structure that stores the containers. 
     def __init__(self,slide_num,slide): 
-        self.shape=slide.shapes[slide_num]
+        self.shape=hollow_shape(slide.shapes[slide_num])
         self.slide_num=slide_num
         #self top and left should be the same as shape.
         self.topleft=None
@@ -39,30 +39,30 @@ class TreeNode:
 
 
     def add(self,slide_num,slide):
-        newshape=slide.shapes[slide_num] 
+        newshape=hollow_shape(slide.shapes[slide_num])
         #print "entering add"
         number_of_additions=0
-        if is_first_inside_second(hollow_shape(newshape),hollow_shape(self.shape)):
+        if is_first_inside_second(newshape,self.shape):
             #print "Discarding for now but should fix later"
             return #fix this later, but we disgard things inside us for now.   
         else: 
-                #print "New Top: {}, Left: {}".format(newshape.top,newshape.left)
-                #print "Current Top: {}, Left: {}".format(self.shape.top,self.shape.left)
-                if newshape.left+newshape.width > self.shape.left:
-                    if newshape.top+newshape.height>self.shape.top:
+                #print "New['top']: {},['left']: {}".format(newshape['top'],newshape['left'])
+                #print "Current['top']: {},['left']: {}".format(self.shape['top'],self.shape['left'])
+                if newshape['left']+newshape['width'] > self.shape['left']:
+                    if newshape['top']+newshape['height']>self.shape['top']:
                         self.add_bottomright(slide_num, slide)
                         number_of_additions+=1
-                    if newshape.top<self.shape.top:
+                    if newshape['top']<self.shape['top']:
                         self.add_topright(slide_num, slide)
                         number_of_additions+=1
-                if newshape.left < self.shape.left:
-                    if newshape.top+newshape.height>self.shape.top:
+                if newshape['left'] < self.shape['left']:
+                    if newshape['top']+newshape['height']>self.shape['top']:
                         self.add_bottomleft(slide_num, slide)
                         number_of_additions+=1
-                    if newshape.top<self.shape.top:
+                    if newshape['top']<self.shape['top']:
                         self.add_topleft(slide_num, slide)
                         number_of_additions+=1
-        print "Number of additions: {}".format(number_of_additions)
+        #print "Number of additions: {}".format(number_of_additions)
                     
     def add_bottomright(self,shape,slide):
         #print "br"
